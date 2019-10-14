@@ -142,6 +142,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\ValueController.cs" />
     <Compile Include="Data\ApplicationDbContext.cs" />
+    <Compile Include="DTOS\LoginDTO.cs" />
     <Compile Include="Migrations\201910130848595_InitialCreate.cs" />
     <Compile Include="Migrations\201910130848595_InitialCreate.Designer.cs">
       <DependentUpon>201910130848595_InitialCreate.cs</DependentUpon>

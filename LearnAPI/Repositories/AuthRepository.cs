@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Results;
 using System.Web.WebSockets;
 using LearnAPI.Data;
+using LearnAPI.DTOS;
 using LearnAPI.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -36,12 +37,17 @@ namespace LearnAPI.Repositories
             };
 
             var result = await _userManager.CreateAsync(user, _user.Password);
+            await _context.SaveChangesAsync();
 
             return result;
         }
 
-        public async Task<IdentityUser> FindUser(string userName, string password)
+
+        public async Task<IdentityUser> FindUser(LoginDTO login)
+
         {
+            string userName = login.UserName;
+            string password = login.Password;
             IdentityUser user = await _userManager.FindAsync(userName, password);
 
             return user;

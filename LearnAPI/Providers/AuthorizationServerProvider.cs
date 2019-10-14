@@ -23,16 +23,16 @@ namespace LearnAPI.Providers
 
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {"*"});
 
-            using (AuthRepository _repo = new AuthRepository())
-            {
-                IdentityUser user = await _repo.FindUser(context.UserName, context.Password);
+            //using (AuthRepository _repo = new AuthRepository())
+            //{
+            //    IdentityUser user = await _repo.FindUser(context.UserName, context.Password);
 
-                if (user == null)
-                {
-                    context.SetError("invalid_grant", "The user name or password is incorrect.");
-                    return;
-                }
-            }
+            //    if (user == null)
+            //    {
+            //        context.SetError("invalid_grant", "The user name or password is incorrect.");
+            //        return;
+            //    }
+            //}
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new System.Security.Claims.Claim("sub", context.UserName));

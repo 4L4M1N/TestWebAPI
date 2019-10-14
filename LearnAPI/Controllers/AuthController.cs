@@ -4,13 +4,16 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Remoting.Contexts;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using LearnAPI.DTOS;
 using LearnAPI.Models;
 using LearnAPI.Repositories;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin.Security.OAuth;
 
@@ -47,10 +50,30 @@ namespace LearnAPI.Controllers
             }
 
 
+            return Ok();
+        }
+
+        [AllowAnonymous]
+        [Route("Login")]
+        public async Task<IHttpActionResult> Login(LoginDTO userLoginDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IdentityUser user = await _repo.FindUser(userLoginDto);
+
+            if (user == null)
+            {
+                return BadRequest("User name or password incorrect");
+            }
+
+
             //Security Token
 
             var identity = new ClaimsIdentity();
-            identity.AddClaim(new System.Security.Claims.Claim("sub", _user.UserName));
+            identity.AddClaim(new System.Security.Claims.Claim("UserName", userLoginDto.UserName));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8
                 .GetBytes("amaamamamasisdfwefdsfdfgwerf123".ToString())); //Set Secret value
